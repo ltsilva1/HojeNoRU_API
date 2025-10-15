@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36511.14 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HojeNoRU_API", "HojeNoRU_API\HojeNoRU_API.csproj", "{5D16A8B7-1C5D-4406-A3C7-817326BB0412}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D16A8B7-1C5D-4406-A3C7-817326BB0412}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D16A8B7-1C5D-4406-A3C7-817326BB0412}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D16A8B7-1C5D-4406-A3C7-817326BB0412}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D16A8B7-1C5D-4406-A3C7-817326BB0412}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C5AA60DB-B8B6-4722-A1E8-49B7C5083DF5}
+	EndGlobalSection
+EndGlobal
