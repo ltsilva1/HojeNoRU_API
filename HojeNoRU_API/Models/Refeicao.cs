@@ -1,8 +1,15 @@
-﻿namespace HojeNoRU_API.Models {
+﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
+namespace HojeNoRU_API.Models {
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum TipoRefeicao {
-        Almoco,
-        Jantar
+        [EnumMember(Value = "Almoço")]
+        Almoco = 0,
+
+        [EnumMember(Value = "Jantar")]
+        Jantar = 1
     }
 
     public class Refeicao {

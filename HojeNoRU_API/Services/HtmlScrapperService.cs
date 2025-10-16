@@ -26,7 +26,7 @@ namespace HojeNoRU_API.Services {
                 var nomeRU = bloco.SelectSingleNode(".//h3")?.InnerText.Trim();
                 if (string.IsNullOrEmpty(nomeRU)) continue;
 
-                // Garante que o RU existe no banco
+                // pra garantir que o RU existe no DB
                 var ru = await _context.RUs.FirstOrDefaultAsync(r => r.Nome == nomeRU);
                 if (ru == null) {
                     ru = new RU { Nome = nomeRU };
@@ -47,7 +47,7 @@ namespace HojeNoRU_API.Services {
 
                     var dias = linhas[0].SelectNodes(".//td").Select(d => d.InnerText.Trim()).ToList();
 
-                    // As linhas seguintes são os pratos por dia
+                    // pratos por dia
                     var linhasPratos = linhas.Skip(1).ToList();
 
                     for (int i = 0; i < dias.Count; i++) {
@@ -84,6 +84,7 @@ namespace HojeNoRU_API.Services {
                                 r.Tipo == refeicao.Tipo);
 
                         if (existente != null) {
+                            await _context.SaveChangesAsync(); // pra garantir que IDs foram gerados
                             _context.ItensCardapio.RemoveRange(existente.Itens);
                             existente.Itens = refeicao.Itens;
                         } else {
