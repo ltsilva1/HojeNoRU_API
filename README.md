@@ -27,5 +27,6 @@ API REST em ASP.NET Core que realiza *web scraping* do cardápio semanal dos Res
 git clone https://github.com/ltsilva1/HojeNoRU_API.git
 cd HojeNoRU_API/HojeNoRU_API
 dotnet restore
+dotnet ef migrations add CriacaoInicial
 dotnet ef database update
 dotnet run
