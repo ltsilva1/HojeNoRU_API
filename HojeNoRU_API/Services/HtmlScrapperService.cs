@@ -34,6 +34,18 @@ namespace HojeNoRU_API.Services {
                     await _context.SaveChangesAsync();
                 }
 
+                var refeicoesAntigas = await _context.Refeicoes
+                            .Include(r => r.Itens)
+                            .Where(r => r.RUId == ru.Id)
+                            .ToListAsync();
+
+                if (refeicoesAntigas.Any()) { // limpa o cardápio antigo antes de adicionar o novo pra evitar duplicatas
+                    Console.WriteLine($"Removendo {refeicoesAntigas.Count} refeições antigas de {ru.Nome}...");
+                    _context.ItensCardapio.RemoveRange(refeicoesAntigas.SelectMany(r => r.Itens));
+                    _context.Refeicoes.RemoveRange(refeicoesAntigas);
+                    await _context.SaveChangesAsync();
+                }
+
                 var tabelas = bloco.SelectNodes(".//div[contains(@class,'elementor-toggle-item')]//table");
                 if (tabelas == null) continue;
 
@@ -75,21 +87,8 @@ namespace HojeNoRU_API.Services {
                             }
                         }
 
-                        // Para evitar duplicar registros de mesmo RU, dia e tipo
-                        var existente = await _context.Refeicoes
-                            .Include(r => r.Itens)
-                            .FirstOrDefaultAsync(r =>
-                                r.RUId == ru.Id &&
-                                r.Data == refeicao.Data &&
-                                r.Tipo == refeicao.Tipo);
+                        _context.Refeicoes.Add(refeicao);
 
-                        if (existente != null) {
-                            await _context.SaveChangesAsync(); // pra garantir que IDs foram gerados
-                            _context.ItensCardapio.RemoveRange(existente.Itens);
-                            existente.Itens = refeicao.Itens;
-                        } else {
-                            _context.Refeicoes.Add(refeicao);
-                        }
                     }
                 }
             }
