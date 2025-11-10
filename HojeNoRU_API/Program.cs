@@ -1,4 +1,6 @@
 using HojeNoRU_API.Context;
+using HojeNoRU_API.Repositories;
+using HojeNoRU_API.Repositories.Interfaces;
 using HojeNoRU_API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -24,14 +26,18 @@ builder.Services.AddControllers()
             JsonIgnoreCondition.WhenWritingNull;
     });
 
-
+// Banco de dados
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Scrapper
 builder.Services.AddHttpClient<HtmlScraperService>();
 builder.Services.AddScoped<HtmlScraperService>();
 
-
+// Repositories e Unit of Work
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IRURepository, RURepository>();
+builder.Services.AddScoped<IRefeicaoRepository, RefeicaoRepository>();
 
 var app = builder.Build();
 
