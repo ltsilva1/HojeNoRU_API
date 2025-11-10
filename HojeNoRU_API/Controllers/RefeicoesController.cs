@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using HojeNoRU_API.Repositories.Interfaces;
+using HojeNoRU_API.DTOs.Extensions;
+using HojeNoRU_API.DTOs;
 
 namespace HojeNoRU_API.Controllers {
     [Route("api/[controller]")]
@@ -25,24 +27,31 @@ namespace HojeNoRU_API.Controllers {
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Refeicao>>> GetAll() {
+        public async Task<ActionResult<IEnumerable<RefeicaoDTO>>> GetAll() {
             var refeicoes = await _uow.Refeicoes.GetRefeicoesAsync();
-            // Console.WriteLine("Total: " + _context.Refeicoes.Count());
-            return Ok(refeicoes);
+            
+            if (!refeicoes.Any())
+                return NotFound("Nenhuma refeição encontrada.");
+
+            var refeicoesDto = refeicoes.AsDTO();
+
+            return Ok(refeicoesDto);
         }
 
         [HttpGet("dia/{diaSemana}")]
-        public async Task<ActionResult<IEnumerable<Refeicao>>> GetPorDia(string diaSemana) {
+        public async Task<ActionResult<IEnumerable<RefeicaoDTO>>> GetPorDia(string diaSemana) {
             var refeicoes = await _uow.Refeicoes.GetRefeicoesAsync(diaSemana: diaSemana);
 
             if (!refeicoes.Any())
                 return NotFound($"Nenhuma refeição encontrada para o dia '{diaSemana}'.");
 
-            return Ok(refeicoes);
+            var refeicoesDto = refeicoes.AsDTO();
+
+            return Ok(refeicoesDto);
         }
 
         [HttpGet("dia/{diaSemana}/tipo/{tipo}")]
-        public async Task<ActionResult<IEnumerable<Refeicao>>> GetPorDiaETipo(string diaSemana, string tipo) {
+        public async Task<ActionResult<IEnumerable<RefeicaoDTO>>> GetPorDiaETipo(string diaSemana, string tipo) {
             TipoRefeicao tipoEnum;
 
             if (!Enum.TryParse(tipo, true, out tipoEnum))
@@ -53,31 +62,37 @@ namespace HojeNoRU_API.Controllers {
             if (!refeicoes.Any())
                 return NotFound($"Nenhuma refeição encontrada para {tipoEnum} em '{diaSemana}'.");
 
-            return Ok(refeicoes);
+            var refeicoesDto = refeicoes.AsDTO();
+
+            return Ok(refeicoesDto);
         }
 
         [HttpGet("ru/{ruId}")]
-        public async Task<ActionResult<IEnumerable<Refeicao>>> GetPorRU(int ruId) {
+        public async Task<ActionResult<IEnumerable<RefeicaoDTO>>> GetPorRU(int ruId) {
             var refeicoes = await _uow.Refeicoes.GetRefeicoesAsync(ruId: ruId);
 
             if (!refeicoes.Any())
                 return NotFound($"Nenhuma refeição encontrada para o RU {ruId}.");
 
-            return Ok(refeicoes);
+            var refeicoesDto = refeicoes.AsDTO();
+
+            return Ok(refeicoesDto);
         }
 
         [HttpGet("ru/{ruId}/dia/{diaSemana}")]
-        public async Task<ActionResult<IEnumerable<Refeicao>>> GetPorRUEdia(int ruId, string diaSemana) {
+        public async Task<ActionResult<IEnumerable<RefeicaoDTO>>> GetPorRUEdia(int ruId, string diaSemana) {
             var refeicoes = await _uow.Refeicoes.GetRefeicoesAsync(ruId: ruId, diaSemana: diaSemana);
 
             if (!refeicoes.Any())
                 return NotFound($"Nenhuma refeição encontrada para o RU {ruId} em '{diaSemana}'.");
 
-            return Ok(refeicoes);
+            var refeicoesDto = refeicoes.AsDTO();
+
+            return Ok(refeicoesDto);
         }
 
         [HttpGet("ru/{ruId}/dia/{diaSemana}/tipo/{tipo}")]
-        public async Task<ActionResult<IEnumerable<Refeicao>>> GetPorRUEdiaETipo(int ruId, string diaSemana, string tipo) {
+        public async Task<ActionResult<IEnumerable<RefeicaoDTO>>> GetPorRUEdiaETipo(int ruId, string diaSemana, string tipo) {
             TipoRefeicao tipoEnum;
 
             if (!Enum.TryParse(tipo, true, out tipoEnum))
@@ -88,7 +103,9 @@ namespace HojeNoRU_API.Controllers {
             if (!refeicoes.Any())
                 return NotFound($"Nenhuma refeição encontrada para {tipoEnum} em '{diaSemana}' no RU {ruId}.");
 
-            return Ok(refeicoes);
+            var refeicoesDto = refeicoes.AsDTO();
+
+            return Ok(refeicoesDto);
         }
 
 

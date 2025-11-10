@@ -1,5 +1,5 @@
-﻿namespace HojeNoRU_API.Models {
-    public class RefeicaoDto { // Pra mostrar os dados na request pública formatadinho
+﻿namespace HojeNoRU_API.DTOs {
+    public class RefeicaoDTO {
         public string Tipo { get; set; }
         public string DiaSemana { get; set; }
         public string Data { get; set; }
